@@ -174,17 +174,19 @@ function updateTopCriteria() {
     allCriteriaHTML += "</ul>";
     allContainer.innerHTML = allCriteriaHTML;
 
-    // Set up the toggle button functionality
+    // Set up the toggle button functionality with visual flair
     let toggleButton = card.querySelector('.toggle-all-criteria');
-    toggleButton.textContent = "Show All Scores"; // initial state
-    // Remove any previous event listener to avoid duplicates (optional)
+    toggleButton.textContent = "Show All Scores";
+    // Remove any previous event listener to avoid duplicates
     toggleButton.onclick = function () {
       if (allContainer.classList.contains('show')) {
         allContainer.classList.remove('show');
         toggleButton.textContent = "Show All Scores";
+        toggleButton.classList.remove('expanded');
       } else {
         allContainer.classList.add('show');
         toggleButton.textContent = "Hide Scores";
+        toggleButton.classList.add('expanded');
       }
     };
   });

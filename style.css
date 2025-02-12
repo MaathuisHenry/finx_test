@@ -11,7 +11,7 @@
   --white:         #fff;
   --border-color:  #ddd;
   --navbar-height: 3rem;
-  --card-min: 350px; /* New variable for minimum card width */
+  --card-min: 350px; /* Minimum card width for the gallery grid */
 }
 
 /* ========================================================================
@@ -88,7 +88,7 @@ body {
 
 /* --- Hamburger Toggle Button Styles --- */
 .menu-toggle {
-  display: none; /* Hidden on larger screens */
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
@@ -131,7 +131,7 @@ body {
   top: var(--navbar-height);
   left: 0;
   width: 25%;
-  min-width: 380px; /* Keep a fixed minimum width */
+  min-width: 380px;
   height: calc(100vh - 4rem);
   padding: 1rem;
   background-color: var(--white);
@@ -277,22 +277,44 @@ body {
 /* --- Gallery Grid --- */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
+  /* Use min() so that if --card-min is larger than the container, the column width becomes 100% */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-min)), 1fr));
   gap: 1rem;
-  /* Ensure the gallery starts to the right of the filter menu */
   margin-top: -3rem;
-  margin-left: max(25%, 380px);
-  width: calc(100% - max(25%, 380px));
+  margin-left: calc(max(25%, 380px) + 1rem);
+  margin-right: 1rem;
+  width: calc(100% - max(25%, 380px) - 2rem);
   padding-bottom: 10rem;
   transition: all 0.3s ease;
 }
 
-/* --- Gallery Header --- */
+/* --- Gallery Header & Controls --- */
 .gallery-header {
   margin: 5rem auto;
   margin-left: max(25%, 380px);
-  width: calc(100% - max(25%, 380px));
-  text-align: right;
+  margin-right: 1rem;
+  width: calc(100% - max(25%, 380px) - 1rem);
+  padding: 0 1rem;
+}
+
+.gallery-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sort-by-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-by-container span {
+  font-size: 1rem;
+  color: var(--text-color);
 }
 
 .sort-by-container select {
@@ -300,13 +322,26 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 5px;
   background-color: var(--white);
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.card-resize-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-resize-container label {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.card-resize-container input[type="range"] {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--white);
+  min-width: 200px;
 }
 
 /* ========================================================================
@@ -362,14 +397,12 @@ body {
   color: var(--text-color);
   margin: 0;
   padding-bottom: 0.25rem;
-  transition: all 0.3s ease;
 }
 
 .text-container p {
   font-size: 1rem;
   color: var(--light-text);
   line-height: 1.6;
-  transition: all 0.3s ease;
 }
 
 /* --- Top-3 Criteria Badge Styles --- */
@@ -397,32 +430,37 @@ body {
   color: var(--white);
   border: none;
   border-radius: 4px;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 1rem;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 0.5rem;
+  position: relative;
+  padding-right: 30px;
 }
-
 .toggle-all-criteria:hover {
   background-color: var(--primary-dark);
 }
-
-.all-criteria {
-  display: none;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  background-color: #f9f9f9;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  width: 100%;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+.toggle-all-criteria::after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+  transition: transform 0.3s ease;
+}
+.toggle-all-criteria.expanded::after {
+  transform: rotate(180deg);
 }
 
+/* Initially collapsed all scores panel with smooth transition */
+.all-criteria {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
 .all-criteria.show {
-  display: block;
+  max-height: 500px;
+  opacity: 1;
 }
 
 /* ========================================================================
@@ -592,21 +630,21 @@ p {
   }
   
   .gallery {
-    width: 100%;
-    margin-left: 0;
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
   
   .gallery-header {
-    margin-left: 0;
-    width: 100%;
+    margin: 5rem 1rem 0 1rem;
+    width: calc(100% - 2rem);
+    padding: 0 1rem;
   }
   
-  /* Show the hamburger button on small screens */
   .menu-toggle {
     display: block;
   }
   
-  /* Animate the nav-links dropdown */
   .nav-links {
     position: absolute;
     top: var(--navbar-height);
@@ -703,29 +741,4 @@ p {
   border: 0;
   border-top: 1px solid var(--border-color);
   margin: 1rem 0;
-}
-
-/* ========================================================================
-   Card Resize Slider (New)
-   ======================================================================== */
-.card-resize-slider {
-  position: fixed;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--white);
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-.card-resize-slider label {
-  display: block;
-  font-size: 1rem;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-}
-.card-resize-slider input[type="range"] {
-  width: 150px;
 }
