@@ -11,6 +11,7 @@
   --white:         #fff;
   --border-color:  #ddd;
   --navbar-height: 3rem;
+  --card-min: 350px; /* New variable for minimum card width */
 }
 
 /* ========================================================================
@@ -43,7 +44,6 @@ body {
   left: 0;
   width: 100%;
   height: var(--navbar-height);
-  /* Add a subtle gradient to hint interactivity */
   background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
   color: var(--white);
   display: flex;
@@ -68,6 +68,7 @@ body {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  transition: all 0.3s ease;
 }
 
 .nav-links li {
@@ -87,10 +88,11 @@ body {
 
 /* --- Hamburger Toggle Button Styles --- */
 .menu-toggle {
-  display: none;  /* Hidden on larger screens */
+  display: none; /* Hidden on larger screens */
   background: none;
   border: none;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 .hamburger {
@@ -99,6 +101,7 @@ body {
   background-color: var(--white);
   display: block;
   position: relative;
+  transition: background-color 0.3s ease;
 }
 
 .hamburger::before,
@@ -109,6 +112,7 @@ body {
   background-color: var(--white);
   position: absolute;
   left: 0;
+  transition: background-color 0.3s ease;
 }
 
 .hamburger::before {
@@ -127,13 +131,15 @@ body {
   top: var(--navbar-height);
   left: 0;
   width: 25%;
+  min-width: 380px; /* Keep a fixed minimum width */
   height: calc(100vh - 4rem);
   padding: 1rem;
   background-color: var(--white);
   border-right: 1px solid var(--border-color);
   overflow-y: auto;
   z-index: 0;
-  box-shadow: 2px 0 6px rgba(0,0,0,0.05);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
 .filter-menu h3 {
@@ -157,7 +163,6 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* Add an info icon after labels to signal more info is available */
 .dialog-label::after {
   content: " ℹ";
   font-size: 0.9rem;
@@ -172,7 +177,6 @@ body {
   cursor: pointer;
 }
 
-/* Custom slider track and thumb */
 .slider-container input[type="range"] {
   flex: 1;
   max-width: 60%;
@@ -180,7 +184,7 @@ body {
   cursor: pointer;
 }
 
-/* Webkit track */
+/* Webkit Range */
 .slider-container input[type="range"]::-webkit-slider-runnable-track {
   height: 8px;
   background: var(--border-color);
@@ -198,7 +202,7 @@ body {
   margin-top: -4px;
 }
 
-/* Firefox track and thumb */
+/* Firefox Range */
 .slider-container input[type="range"]::-moz-range-track {
   height: 8px;
   background: var(--border-color);
@@ -230,13 +234,14 @@ body {
   background-color: var(--white);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  /* Remove default appearance and add a custom down arrow */
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1rem;
+  transition: all 0.3s ease;
 }
+
 .filter-menu .filter-dropdown:focus {
   outline: 3px solid #3498db;
   outline-offset: 2px;
@@ -272,18 +277,21 @@ body {
 /* --- Gallery Grid --- */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
   gap: 1rem;
-  width: 60%;
+  /* Ensure the gallery starts to the right of the filter menu */
   margin-top: -3rem;
-  margin-left: 20%;
+  margin-left: max(25%, 380px);
+  width: calc(100% - max(25%, 380px));
   padding-bottom: 10rem;
+  transition: all 0.3s ease;
 }
 
 /* --- Gallery Header --- */
 .gallery-header {
-  width: calc(100% - 20%);
   margin: 5rem auto;
+  margin-left: max(25%, 380px);
+  width: calc(100% - max(25%, 380px));
   text-align: right;
 }
 
@@ -298,6 +306,7 @@ body {
   background-position: right 0.5rem center;
   background-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 /* ========================================================================
@@ -313,44 +322,107 @@ body {
   border-radius: 8px;
   background-color: var(--white);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .image:hover,
 .gallery-item:hover {
-  transform: scale(1.05);
+  transform: scale(1.10);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
+
 .image-container {
   width: 100%;
   overflow: hidden;
   border-radius: 8px;
+  transition: all 0.3s ease;
 }
+
 .image-container img {
   width: 100%;
   height: auto;
   max-height: 300px;
   object-fit: contain;
   display: block;
+  transition: transform 0.3s ease;
 }
+
 .text-container {
   margin-top: auto;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transition: all 0.3s ease;
 }
+
 .text-container h3 {
   font-size: 1.2rem;
   font-weight: bold;
   color: var(--text-color);
   margin: 0;
   padding-bottom: 0.25rem;
+  transition: all 0.3s ease;
 }
+
 .text-container p {
   font-size: 1rem;
   color: var(--light-text);
   line-height: 1.6;
-  margin: 0;
+  transition: all 0.3s ease;
+}
+
+/* --- Top-3 Criteria Badge Styles --- */
+.top-criteria {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.criteria-badge {
+  background-color: var(--accent-color);
+  color: var(--white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* --- Toggle All Criteria Button & Disclosure --- */
+.toggle-all-criteria {
+  background-color: var(--accent-color);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.toggle-all-criteria:hover {
+  background-color: var(--primary-dark);
+}
+
+.all-criteria {
+  display: none;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  width: 100%;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.all-criteria.show {
+  display: block;
 }
 
 /* ========================================================================
@@ -366,7 +438,9 @@ body {
   font-size: 14px;
   max-width: 200px;
   z-index: 1000;
+  transition: opacity 0.3s ease;
 }
+
 .dialog.show {
   display: block;
 }
@@ -424,7 +498,9 @@ footer {
   left: 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  transition: all 0.3s ease;
 }
+
 footer p {
   margin: 0;
   font-size: 0.875rem;
@@ -445,6 +521,7 @@ form textarea {
   margin-bottom: 1rem;
   border-radius: 5px;
   border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 form textarea {
   resize: vertical;
@@ -456,7 +533,7 @@ form input[type="submit"] {
   cursor: pointer;
   padding: 0.75rem;
   font-size: 1rem;
-  transition: background-color 0.3s, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 form input[type="submit"]:hover {
   background-color: #444;
@@ -470,7 +547,7 @@ form input[type="submit"]:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 .toggle-btn:hover {
   background-color: #2980b9;
@@ -490,6 +567,7 @@ section {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 h2 {
   font-size: 1.5rem;
@@ -508,6 +586,7 @@ p {
   .filter-menu {
     position: relative;
     width: 100%;
+    min-width: 300px;
     height: auto;
     border-right: none;
   }
@@ -517,26 +596,35 @@ p {
     margin-left: 0;
   }
   
+  .gallery-header {
+    margin-left: 0;
+    width: 100%;
+  }
+  
   /* Show the hamburger button on small screens */
   .menu-toggle {
     display: block;
   }
   
-  /* Hide nav-links by default and display them vertically */
+  /* Animate the nav-links dropdown */
   .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
     position: absolute;
     top: var(--navbar-height);
     left: 0;
+    width: 100%;
     background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-    padding: 1rem 0;
+    flex-direction: column;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
   
-  /* Display nav-links when active */
   .nav-links.active {
-    display: flex;
+    transform: scaleY(1);
+    opacity: 1;
+    pointer-events: auto;
   }
   
   .nav-links li {
@@ -582,7 +670,7 @@ p {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: block;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 .detail-image img:hover {
   transform: scale(1.05);
@@ -603,7 +691,7 @@ p {
   color: var(--white);
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 .back-btn:hover {
   background-color: var(--primary-dark);
@@ -615,4 +703,29 @@ p {
   border: 0;
   border-top: 1px solid var(--border-color);
   margin: 1rem 0;
+}
+
+/* ========================================================================
+   Card Resize Slider (New)
+   ======================================================================== */
+.card-resize-slider {
+  position: fixed;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--white);
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+.card-resize-slider label {
+  display: block;
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+.card-resize-slider input[type="range"] {
+  width: 150px;
 }
