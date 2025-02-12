@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
   const sliders = document.querySelectorAll('.filter-menu input[type="range"]');
   const explanationDropdown = document.getElementById('explanation-dropdown');
@@ -7,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const images = document.querySelectorAll('.gallery .image img');
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
-
 
   // Update slider display and trigger filtering when sliders change
   sliders.forEach(slider => {
@@ -18,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Toggle mobile navigation on hamburger click
   menuToggle.addEventListener('click', function() {
     navLinks.classList.toggle('active');
   });

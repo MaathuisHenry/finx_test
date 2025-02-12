@@ -63,6 +63,7 @@ body {
   height: var(--navbar-height);
 }
 
+/* --- Navigation Links --- */
 .nav-links {
   list-style: none;
   display: flex;
@@ -82,6 +83,40 @@ body {
 
 .nav-links a:hover {
   text-decoration: underline;
+}
+
+/* --- Hamburger Toggle Button Styles --- */
+.menu-toggle {
+  display: none;  /* Hidden on larger screens */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger {
+  width: 25px;
+  height: 2px;
+  background-color: var(--white);
+  display: block;
+  position: relative;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  width: 25px;
+  height: 2px;
+  background-color: var(--white);
+  position: absolute;
+  left: 0;
+}
+
+.hamburger::before {
+  top: -8px;
+}
+
+.hamburger::after {
+  top: 8px;
 }
 
 /* ========================================================================
@@ -480,6 +515,33 @@ p {
   .gallery {
     width: 100%;
     margin-left: 0;
+  }
+  
+  /* Show the hamburger button on small screens */
+  .menu-toggle {
+    display: block;
+  }
+  
+  /* Hide nav-links by default and display them vertically */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    padding: 1rem 0;
+  }
+  
+  /* Display nav-links when active */
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin: 1rem 0;
+    text-align: center;
   }
 }
 
